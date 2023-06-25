@@ -1,8 +1,4 @@
-import AceEditor from 'react-ace';
-
-import 'ace-builds/src-noconflict/mode-c_cpp';
-import 'ace-builds/src-noconflict/theme-dracula';
-import 'ace-builds/src-noconflict/ext-language_tools';
+import MyEditor from './MyEditor.tsx';
 import {
   ResponsiveContainer,
   BarChart,
@@ -15,7 +11,6 @@ import {
   Cell,
 } from 'recharts';
 import { useEffect, useRef, useState } from 'react';
-import { useStateCallback } from './hooks/useStateCallback';
 
 const data = [
   {
@@ -67,6 +62,7 @@ function App() {
     setSelectedGraph((prevState) => (Number(prevState) + 1).toString());
   }, []);
 
+
   return (
     <main className="bg-gray-800 flex p-20 space-x-5 flex-col md:flex-row justify-between w-screen h-screen text-white">
       <div className=" md:w-1/2 h-full">
@@ -100,7 +96,7 @@ function App() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="md:w-1/2 p-5 bg-slate-700 rounded-lg h-full">
+      <div className="md:w-1/2 p-5 rounded-lg h-full"> 
         <button
           onClick={() => {
             if (selectedGraph !== '0') {
@@ -121,12 +117,7 @@ function App() {
         >
           Siguiente
         </button>
-        <AceEditor
-          theme="dracula"
-          onChange={onChange}
-          name="UNIQUE_ID_OF_DIV"
-          editorProps={{ $blockScrolling: true }}
-        />
+      <MyEditor/>          
       </div>
     </main>
   );
