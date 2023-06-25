@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.test-marker{
-    position: absolute;
-    background-color: #FFFF00;
- }
+.foo{
+    position:absolute;
+    background:rgba(100,200,100,0.5);
+    z-index:20
+}
