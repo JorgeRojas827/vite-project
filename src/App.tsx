@@ -6,50 +6,30 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   Bar,
   Cell,
 } from 'recharts';
 import { useEffect, useRef, useState } from 'react';
 import { IoMdPlay } from 'react-icons/io';
+import bubbleSort from './hooks/sortingBubble.tsx';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-  },
-];
 
 function App() {
-  const [selectedGraph, setSelectedGraph] = useState('0');
+  const [data, setData] = useState([
+    {name: '3500', uv: 3500,},
+    {name: '3000', uv: 3000,},
+    {name: '2000', uv: 2000,},
+    {name: '2000', uv: 2780,},
+    {name: '1890', uv: 1890,},
+    {name: '2390', uv: 2390,},
+    {name: '3490', uv: 3490,},
+  ]);
+  const [selectedGraph, setSelectedGraph] = useState(['0', '0']);
 
-  useEffect(() => {
-    setSelectedGraph((prevState) => (Number(prevState) + 1).toString());
-  }, []);
+  const bubbleSortHandler = () => {
+    bubbleSort(data, setData, setSelectedGraph);
+  };
+  
 
   return (
     <main className="bg-gray-800 flex p-20 space-x-5 flex-col md:flex-row justify-between w-screen h-screen text-white">
@@ -70,48 +50,30 @@ function App() {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Legend />
             <Bar dataKey="uv" fill="#82ca9d">
+              {/*<LabelList dataKey='name' position="middle" dy={-10} fill="white" fontSize={12} fontWeight="bold"/>*/}
+
               {data.map((e, index) => {
                 return (
-                  <Cell
-                    fill={index.toString() === selectedGraph ? 'red' : 'black'}
-                    id={index.toString()}
+                  <Cell fill={index.toString() === selectedGraph[0] || index.toString() === selectedGraph[1] ? 'red' : 'black'}
+                        id={index.toString()} 
                   />
-                );
-              })}
+                )})}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
       <div className="md:w-1/2 h-full">
         <div className="p-5 flex space-x-3 items-center rounded-lg ">
-          <button
-            onClick={() => {
-              if (selectedGraph !== '0') {
-                setSelectedGraph((Number(selectedGraph) - 1).toString());
-              }
-            }}
-            className="bg-indigo-700 mb-10 text-white p-3 rounded-md"
-          >
-            Anterior
-          </button>
-          <button
-            onClick={() => {
-              if (selectedGraph !== (data.length - 1).toString()) {
-                setSelectedGraph((Number(selectedGraph) + 1).toString());
-              }
-            }}
-            className="bg-indigo-700 mb-10 text-white p-3 rounded-md"
-          >
-            Siguiente
-          </button>
           <button className="bg-indigo-700 mb-10 text-white p-3 rounded-md">
             <IoMdPlay />
           </button>
+          <button onClick={bubbleSortHandler} className="bg-indigo-700 mb-10 text-white p-3 rounded-md">
+            Sort
+          </button>
         </div>
         <MyEditor selectedGraph={selectedGraph} />
-      </div>
+        </div>
     </main>
   );
 }
