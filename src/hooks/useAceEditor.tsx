@@ -18,7 +18,7 @@ export const useAceEditor = ({ref}: iprops) => {
             ref.current.editor.session.removeMarker(prevMarkers[item].id);
         }
     }
-    ref.current.editor.session.addMarker(new Range(selected, selected, selected, 0), "foo", "fullLine");
+    ref.current.editor.session.addMarker(new Range(selected-1, selected, selected-1, 0), "foo", "fullLine");
    }
 
   return {
