@@ -70,8 +70,8 @@ function App() {
 
           if (contador=posCod.cambioVar)
             { setSelectedGraph( [
-              (Number(5)).toString(),
-              (Number(6)).toString(),
+              (Number(j)).toString(),
+              (Number(j+1)).toString(),
             ]);
             }
           setSelectedLine(contador);
