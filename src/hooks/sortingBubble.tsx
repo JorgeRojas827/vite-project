@@ -76,12 +76,12 @@ function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.
         
       }else{
         handleSortingComplete()
+        setSelectedLine(23);
       }
     }
     
     // Start the sorting process
     performSortStep();
-    setSelectedLine(0);
   }
   
 
