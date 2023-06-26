@@ -9,13 +9,14 @@ const posCod_forsArray = [
   18
 ]
 
-function bubbleSortStep(arr: { name: string; uv: number; } []) {
+
+function bubbleSortStep(arr: { name: string; value: number; } []) {
   let sorted = true;
   let swappedIndexes = [];
 
   // Perform one step of bubble sort
   for (let i = 0; i < arr.length - 1; i++) {
-    if (arr[i].uv > arr[i + 1].uv) {
+    if (arr[i].value > arr[i + 1].value) {
       // Swap elements if they are in the wrong order
       [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
       sorted = false;
@@ -28,15 +29,17 @@ function bubbleSortStep(arr: { name: string; uv: number; } []) {
   return { sortedArray: arr, isSorted: sorted, swappedIndexes };
 }
 
-function bubbleSortAlgo(data: { name: string; uv: number }[], setData: React.Dispatch<React.SetStateAction<{ name: string; uv: number }[]>>, 
-    setSelectedGraph: React.Dispatch<React.SetStateAction<string[]>>, setSelectedLine: React.Dispatch<React.SetStateAction<number>>) {
+function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.Dispatch<React.SetStateAction<{ name: string; value: number }[]>>, 
+    setSelectedGraph: React.Dispatch<React.SetStateAction<string[]>>, setSelectedLine: React.Dispatch<React.SetStateAction<number>>,
+    handleSortingComplete: () => void)
+    {
       
     let sortedData = [...data];
 
     let unsortedArray = sortedData;
     let cambios;
 
-    const delayAnimacion = 500;
+    const delayAnimacion = 100;
 
     // Perform the bubble sort step by step
     function performSortStep() {
@@ -71,14 +74,17 @@ function bubbleSortAlgo(data: { name: string; uv: number }[], setData: React.Dis
         // Call the next step after a delay
         setTimeout(performSortStep, delayAnimacion*(posCod_forsArray.length)+1500);
         
-
+      }else{
+        handleSortingComplete()
       }
     }
     
     // Start the sorting process
     performSortStep();
-    setSelectedLine(23);
+    setSelectedLine(0);
   }
+  
+
     
   export default bubbleSortAlgo;
   

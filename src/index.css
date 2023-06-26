@@ -2,8 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .foo{
     position:absolute;
     background:rgba(100,200,100,0.5);
     z-index:20
+}
+
+#algo-info {
+    font-family: 'Montserrat', sans-serif;
+    grid-area: algo-info;
+    background: white;
+    height: 100%;
+    width: 25%;
+    padding: 100px 0px;
+}
+
+#algo-info .algo-details {
+    display: block;
+    padding: 25px;
+    text-align: justify;
+    text-indent: 0px;
+    line-height: 25px;
+    font-weight: bold;
+}
+
+#algo-info .algo-complexity {
+    display: block;
+}
+
+#algo-info .algo-complexity ul {
+    text-align: left;
+    list-style-type: square;
+}
+
+#algo-info .algo-complexity ul .complexity-item {
+    font-weight: bold;
+    display: inline-block;
+    width: 160px;
+}
+#algo-info .algo-complexity ul .complexity-value {
+    padding: 5px;
 }
