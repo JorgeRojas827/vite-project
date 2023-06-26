@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const MyEditor: FC<IProps> = ({ selectedIndex }) => {
-  console.log('MyEditor:', selectedIndex);
+  //console.log('MyEditor:', selectedIndex);
 
   const editor = useRef<any>(null);
   const { setline } = useAceEditor({ ref: editor });
