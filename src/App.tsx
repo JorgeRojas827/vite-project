@@ -15,70 +15,85 @@ const initialData = [
   { name: '3490', value: 3490 },
 ];
 
+const bubbleData = 'Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.'
+const selecData = 'Selection Sort is a sorting algorithm, specifically an in-place comparison sort. It has O time complexity, making it inefficient on large lists, and generally performs worse than the similar insertion sort'
+const insertData = 'Insertion Sort is a simple sorting algorithm that builds the final sorted array one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort.'
+
 function App() {
 
-  const [selectedLine, setSelectedLine] = useState(12);  
-  const [selectedGraph, setSelectedGraph] = useState(['0', '1']);
+  {/*Grafico y Editor*/}
 
-  const [data, setData] = useState(initialData);
-  const [btnCleanDisabled, setBtnCleanDisabled] = useState(false);
-  const [btnSortDisabled, setBtnSortDisabled] = useState(false);
-
-  const [selectedOption, setSelectedOption] = useState('bubble');
-  console.log('option: ', selectedOption)
-
-  const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
-  };
-
+  const [selectedLine, setSelectedLine] = useState(12);               //Linea que se envía a resaltar
+  const [selectedGraph, setSelectedGraph] = useState(['0', '1']);     //Indices de las barras que se comparan
+  const [data, setData] = useState(initialData);                      //Diccionario para actualizar la data de las barras
   
-  const bubbleSortHandler = () => {
+  const lowestIndex = () => {                                         //Obtener el menor valor de dos barras
+    if(data[Number(selectedGraph[0])].value > data[Number(selectedGraph[1])].value){return 1;}
+    else{return 0;}
+  }
+  
+
+  {/*Bubble Sort en Grafico*/}
+
+  const bubbleSortHandler = () => {                                   //Permite manejar la funcion importada bubbleSortAlgo
     setBtnSortDisabled(true);
     setBtnCleanDisabled(true);
-    
     bubbleSortAlgo(data, setData, setSelectedGraph, setSelectedLine, handleSortingComplete);
-    console.log('App', selectedLine)
-    
   };
 
   
+  {/*Botones*/}
+
+  const [btnCleanDisabled, setBtnCleanDisabled] = useState(true);     //Desactivar boton Clean
+  const [btnSortDisabled, setBtnSortDisabled] = useState(false);      //Desactivar boton Sort
   const handleSortingComplete = () => {
-    setBtnCleanDisabled(false);
+    setBtnCleanDisabled(false);                                 
   };
   
-  const cleanBars = () => {
+  const cleanBars = () => {                                           //Se vuelve a la data original (Clean)
     setData(initialData)
     setSelectedGraph( ['0','1',]);
     setBtnSortDisabled(false);
   }
   
+  
+  {/*Panel Lateral*/}
+
+  const [selectedOption, setSelectedOption] = useState('bubble');
+
+  const handleOptionChange = (event: any) => {                      //Cuando termine el sorting activar Clear
+    setSelectedOption(event.target.value);
+  };
+
   let titleSort = '';
   let bodySort = '';
-  let dataSort = ["", "", "", "", "", "", ""];  //array
+  let dataSort = ["", "", "", "", "", "", ""]; 
 
   switch (selectedOption) {
     case 'bubble':
       titleSort = 'Bubble'
-      bodySort = 'Bubble sort, sometimes referred to as sinking sort, is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.'
+      bodySort = bubbleData
       dataSort = ['N^2', 'N^2', 'N', '1', 'Exchanging', 'Yes']
     break;
     case 'selection':
       titleSort = 'Selection'
-      bodySort = 'Selection Sort is a sorting algorithm, specifically an in-place comparison sort. It has O time complexity, making it inefficient on large lists, and generally performs worse than the similar insertion sort'
+      bodySort = selecData
       dataSort = ['N^2', 'N^2', 'N^2', '1', 'Selection', 'No']
     break;
     case 'insertion':
       titleSort = 'Insertion'
-      bodySort = 'Insertion Sort is a simple sorting algorithm that builds the final sorted array one item at a time. It is much less efficient on large lists than more advanced algorithms such as quicksort, heapsort, or merge sort.'
+      bodySort = insertData
       dataSort = ['N^2', 'N^2', 'N', '1', 'Insertion', 'Yes']
     break;
 
     default:
-      break;
+    break;
   }
 
   return (
     <main className='flex-col md:flex-row justify-between h-screen flex'>
+
+      {/*Panel Lateral*/}
       <div id="algo-info">
             <div id="bubble-info" className="algo-container p-5 text-white">
                 <h2 className="algo-header text-center text-xl font-extrabold">{titleSort} sort</h2>
@@ -97,6 +112,8 @@ function App() {
             </div>
       </div>
 
+
+      {/* Graficos */}
       <div className="bg-gray-800 flex p-10 space-x-5 text-white w-screen">
         <div className=" md:w-1/2 h-full">
           <ResponsiveContainer width="100%" height="100%" >
@@ -114,9 +131,10 @@ function App() {
                   return (
                       <Cell 
                           fill={
-                            (index.toString() === selectedGraph[0]) || 
-                            (index.toString() === selectedGraph[1]) ? 'red' : 'black'}
-                          id={index.toString()}
+                            (index.toString() != selectedGraph[0] && index.toString() != selectedGraph[1]) ? 'black' :
+                            (index.toString() === selectedGraph[lowestIndex()]) ? 'green' : 'red'
+                          }
+                          id={index.toString()} 
                       />
                   )})}
               </Bar>
@@ -124,6 +142,7 @@ function App() {
           </ResponsiveContainer>
         </div>
 
+        {/* Botones */}
         <div className="md:w-1/3 h-full">
           <div className="p-2 flex space-x-3 items-center rounded-lg ">
             <button onClick={cleanBars} 
@@ -131,9 +150,7 @@ function App() {
                     disabled={btnCleanDisabled}
                     style = {{
                       backgroundColor: btnCleanDisabled ? 'gray' : ''
-                    }}
-                    >
-              Clean
+                    }}>Clean
             </button>
             <button onClick={bubbleSortHandler} 
                     className="bg-indigo-700 mb-3 text-white p-3 rounded-md"
@@ -141,10 +158,11 @@ function App() {
                     style = {{
                       backgroundColor: btnSortDisabled ? 'gray' : ''
                     }}
-                    >
-              Sort
+                    >Sort
             </button>
             <div>
+
+              {/* Panel Lateral */}
               <select value={selectedOption} onChange={handleOptionChange} className='text-white rounded-lg mb-3 p-3 bg-indigo-700'>
                 <option value="bubble">Bubble Sort</option>
                 <option value="selection">Selection Sort</option>
@@ -153,6 +171,8 @@ function App() {
 
             </div>
           </div>
+
+        {/* Editor */}
           <MyEditor selectedIndex={selectedLine} />
         </div>
 

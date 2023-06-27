@@ -6,13 +6,12 @@ import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/theme-github.js';
 import { useAceEditor } from './hooks/useAceEditor';
 
+
 interface IProps {
   selectedIndex: any;
 }
 
 const MyEditor: FC<IProps> = ({ selectedIndex }) => {
-  //console.log('MyEditor:', selectedIndex);
-
   const editor = useRef<any>(null);
   const { setline } = useAceEditor({ ref: editor });
 

@@ -9,13 +9,14 @@ const posCod_forsArray = [
   18
 ]
 
-
 function bubbleSortStep(arr: { name: string; value: number; } []) {
   let sorted = true;
   let swappedIndexes = [];
 
   // Perform one step of bubble sort
+
   for (let i = 0; i < arr.length - 1; i++) {
+
     if (arr[i].value > arr[i + 1].value) {
       // Swap elements if they are in the wrong order
       [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
@@ -30,8 +31,8 @@ function bubbleSortStep(arr: { name: string; value: number; } []) {
 }
 
 function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.Dispatch<React.SetStateAction<{ name: string; value: number }[]>>, 
-    setSelectedGraph: React.Dispatch<React.SetStateAction<string[]>>, setSelectedLine: React.Dispatch<React.SetStateAction<number>>,
-    handleSortingComplete: () => void)
+                  setSelectedGraph: React.Dispatch<React.SetStateAction<string[]>>, setSelectedLine: React.Dispatch<React.SetStateAction<number>>,
+                  handleSortingComplete: () => void)
     {
       
     let sortedData = [...data];
@@ -58,12 +59,12 @@ function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.
           (Number(cambios[1])).toString(),
         ]);
         
-        setData([...sortedData]);
+        setData([...sortedData]);                               //La lista data se actualiza en el grafico de barras
 
 
         let count = 0;
         const interval = setInterval(() => {
-          setSelectedLine( posCod_forsArray[count] );
+          setSelectedLine( posCod_forsArray[count] );           //Se asigna una linea
           count++;
 
           if (count > posCod_forsArray.length-1) {
@@ -75,7 +76,7 @@ function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.
         setTimeout(performSortStep, delayAnimacion*(posCod_forsArray.length)+1500);
         
       }else{
-        handleSortingComplete()
+        handleSortingComplete()                                 //Al final del sorting
         setSelectedLine(23);
       }
     }
@@ -84,7 +85,5 @@ function bubbleSortAlgo(data: { name: string; value: number }[], setData: React.
     performSortStep();
   }
   
-
-    
   export default bubbleSortAlgo;
   
